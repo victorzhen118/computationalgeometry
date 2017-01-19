@@ -6,40 +6,14 @@
 
 <body>
 
-  <h1>Proficient in:</h1>
-  <div class='skillset'>
-    <div class='skill-html'>
-      <h1>HTML &amp; CSS</h1>
-      <p class='description'>
-        <div class='projects-button'>Recent Projects</div>
-        <ul class='projects'>
-          <li>Broadway</li>
-          <li>MOVE</li>
-        </ul>
-      </p>
-    </div>
-
-    <div class='skill-js'>
-      <h1>JavaScript</h1>
-      <p class='description'>
-        <div class='projects-button'>Recent Projects</div>
-        <ul class='projects'>
-          <li>Password Validator</li>
-          <li>Whale Talk</li>
-        </ul>
-      </p>
-    </div>
-
-    <div class='skill-jquery'>
-      <h1>jQuery</h1>
-      <p class='description'>
-        <div class='projects-button'>Recent Projects</div>
-        <ul class='projects'>
-          <li>Coming soon...</li>
-        </ul>
-      </p>
-    </div>
-  </div>
+  <h1>Visual Convex Hull Algorithms:</h1>
+  <input type="button" value="Jarvis March" id="computeButton" onClick=computeJM()>
+  <input type="button" value="Graham Scan" id="computeButton" onClick=computeGS()>
+  <input type="button" value="Chan's Algorithm" id="computeButton" onClick=computeCA()>
+  <br></br>
+  <canvas id="canvas" width="400" height="400" style="border:1px solid #000000;"></canvas>
+  <br></br>
+  <!-- put QA stuff in here -->
 	<script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
 	<script src='js/main.js'> </script>
 </body>
