@@ -59,17 +59,15 @@ function computeJM(){
   //now we perform the jarvis march algorithm!
   //1. get leftmost point.
   //to get leftmost point, just keep a variable leftmin that tracks the leftmost point
-  console.log(pointArray);
   var left = pointArray[0].x;
   var leftIndex = 0;
   for(var i=1; i<pointArray.length; i++){
     if(pointArray[i].x<left){
-      console.log(leftIndex, i);
       left = pointArray[i].x;
       leftIndex = i;
     }
   }
-  
+
   //the leftmost point is at the ith position. yasss
   //now we compare this ith point to every other to find the smallest exterior angle.
   //as can be seen here:
@@ -86,11 +84,10 @@ function computeJM(){
   convexHullArray.push(startPoint);
 
   while((convexHullArray.length===1 || convexHullArray[0]!==convexHullArray[convexHullArray.length-1])){
-    var maxExtAngle = 100;
+    var maxExtAngle = 0;
     var currentExtAngle;
     var temp = currentPointIndex;
     for(var i=0; i<pointArray.length; i++){
-      console.log(i, currentPointIndex);
       if(i===currentPointIndex || i===previousPointIndex)
         continue;
       else{
@@ -98,9 +95,8 @@ function computeJM(){
         firstSide = measureDistance(previousPoint, currentPoint);
         secondSide = measureDistance(currentPoint, pointArray[i]);
         thirdSide = measureDistance(previousPoint, pointArray[i]);
-        console.log(firstSide, secondSide, thirdSide);
         currentExtAngle = Math.acos(((Math.pow(thirdSide,2)) - Math.pow(secondSide,2) - Math.pow(firstSide,2))/(-2*secondSide*firstSide));
-        if(currentExtAngle<maxExtAngle){
+        if(currentExtAngle>maxExtAngle){
           currentPointIndex = i;
           maxExtAngle = currentExtAngle;
         }
@@ -113,10 +109,17 @@ function computeJM(){
     previousPoint.x = currentPoint.x;
     previousPoint.y = currentPoint.y;
     currentPoint = pointArray[currentPointIndex];
-
   }
 
-  console.log(convexHullArray);
+  //now we have an array that holds the points of the convex hull.
+  context.beginPath();
+  context.moveTo(convexHullArray[0].x, convexHullArray[0].y);
+  context.strokeStyle = '#000000';
+  context.lineWidth = 1;
+  for(var i=1; i<convexHullArray.length; i++){
+    context.lineTo(convexHullArray[i].x, convexHullArray[i].y);
+    context.stroke();
+  }
 
   return;
 }
