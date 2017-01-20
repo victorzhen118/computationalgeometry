@@ -5,6 +5,16 @@ var stackY = []; //for holding previous y value points.
 var currX = 0;
 var currY = 0;
 
+/*
+List of TODOS:
+css please.
+variation of colors when it comes to the points
+proper clear button
+time permitted:
+draw the lines during the algorithm. mad work tho
+
+*/
+
 function init(){
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
@@ -73,7 +83,7 @@ function computeJM(){
   //as can be seen here:
   //"https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Jarvis_march
   //_convex_hull_algorithm_diagram.svg/280px-Jarvis_march_convex_hull_algorithm_diagram.svg.png"
-  var previousPoint = new Point(0, pointArray[leftIndex].y);
+  var previousPoint = new Point(pointArray[leftIndex].x, canvas.height);
   var startPoint = pointArray[leftIndex];
   var currentPoint = pointArray[leftIndex];
   var currentPointIndex = leftIndex;
@@ -84,21 +94,22 @@ function computeJM(){
   convexHullArray.push(startPoint);
 
   while((convexHullArray.length===1 || convexHullArray[0]!==convexHullArray[convexHullArray.length-1])){
-    var maxExtAngle = 0;
-    var currentExtAngle;
+    var maxIntAngle = 0;
+    var currentIntAngle;
     var temp = currentPointIndex;
     for(var i=0; i<pointArray.length; i++){
       if(i===currentPointIndex || i===previousPointIndex)
         continue;
       else{
-        //now we do math to find the exterior angle, law of cosines is our friend here
+        //now we do math to find the maximum interior* angle, law of cosines is our friend here
+        //its the same thing, minimum exterior angle, maxmimum interior angle, xdddd
         firstSide = measureDistance(previousPoint, currentPoint);
         secondSide = measureDistance(currentPoint, pointArray[i]);
         thirdSide = measureDistance(previousPoint, pointArray[i]);
-        currentExtAngle = Math.acos(((Math.pow(thirdSide,2)) - Math.pow(secondSide,2) - Math.pow(firstSide,2))/(-2*secondSide*firstSide));
-        if(currentExtAngle>maxExtAngle){
+        currentIntAngle = Math.acos(((Math.pow(thirdSide,2)) - Math.pow(secondSide,2) - Math.pow(firstSide,2))/(-2*secondSide*firstSide));
+        if(currentIntAngle>maxIntAngle){
           currentPointIndex = i;
-          maxExtAngle = currentExtAngle;
+          maxIntAngle = currentIntAngle;
         }
       }
     }
