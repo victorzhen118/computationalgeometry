@@ -15,6 +15,7 @@ one degenerate edge case where the poinst are on the line. fix for jarvis march.
 proper chans algorithm.
 waves of colors.
 night mode?
+stop the buttons from being too bright.
 
 time permitted:
 draw the lines during the algorithm. mad work tho
@@ -23,9 +24,19 @@ draw the lines during the algorithm. mad work tho
 function init(){
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
+  context.beginPath();
+  context.rect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = '#EEEEEE';
+  context.fill();
+  context.lineWidth = 1;
+  context.strokeStyle = 'black';
+  context.stroke();
+
   canvas.addEventListener("mousedown", function(e){
-    currX = e.clientX - canvas.offsetLeft;
-    currY = e.clientY - canvas.offsetTop;
+    currX = e.pageX - canvas.offsetLeft-6;
+    currY = e.pageY - canvas.offsetTop-6;
+    //currX = e.clientX;
+    //currY = e.clientY;
     stackX.push(currX);
     stackY.push(currY);
 
@@ -54,7 +65,7 @@ function clearScreen(){
   stackY = [];
   context.beginPath();
   context.rect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = 'white';
+  context.fillStyle = '#EEEEEE';
   context.fill();
   context.lineWidth = 1;
   context.strokeStyle = 'black';
@@ -156,7 +167,7 @@ function computeJM(pointArray){
           currentPointIndex = i;
           maxIntAngle = currentIntAngle;
         }
-        window.setInterval(drawLine(currentPoint, pointArray[i]), 1000);
+        //window.setInterval(drawLine(currentPoint, pointArray[i]), 1000);
       }
     }
     previousPointIndex = temp;
