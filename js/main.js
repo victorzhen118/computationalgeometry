@@ -11,10 +11,11 @@ List of TODOS:
 css please.
 proper clear button
 a timer to compare the speeds of the algorithms.
-make background black, with light colored dots.e
+make background black, with light colored dots.
 add link to site in the readme.md
 do not allow for more dots to be drawn after first convex hull
 one degenerate edge case where the poinst are on the line. fix for jarvis march.
+edge case for jarvis march, if there are two points. done.
 
 time permitted:
 draw the lines during the algorithm. mad work tho
@@ -47,13 +48,19 @@ function generateRandomColorString(){
   return toReturn;
 }
 
-function clear(){
+$(document).ready(init());
+
+function clearScreen(){
   stackX = [];
   stackY = [];
-  context.clearRect(0,0,canvas.width, canvas.height);
+  context.beginPath();
+  context.rect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = 'white';
+  context.fill();
+  context.lineWidth = 1;
+  context.strokeStyle = 'black';
+  context.stroke();
 }
-
-$(document).ready(init());
 
 function measureDistance(a, b){
   return Math.sqrt(Math.pow((a.x-b.x),2) + Math.pow((a.y-b.y),2));
@@ -92,6 +99,8 @@ function computeCASetUp(){
 }
 
 function computeJM(pointArray){
+  if(pointArray.length<=2)
+    return;
   //we have the stackx and stacky arrays to help find the convex hull.
   /*pointArray.sort(function(a,b){
     if(a.x<b.x)
@@ -182,6 +191,8 @@ function isCCW(a, b, c){
 }
 
 function computeGS(pointArray){
+  if(pointArray.length<=2)
+    return pointArray;
   //get bottomost point.
   var bottomPoint = pointArray[0];
   bottomPointIndex = 0;
@@ -234,10 +245,40 @@ function computeGS(pointArray){
   //now draw lines.
   context.beginPath();
   context.moveTo(convexHullArray[0].x, convexHullArray[0].y);
-  context.strokeStyle = '#000000';
+  context.strokeStyle = '#12397C';
   context.lineWidth = 1;
   for(var i=1; i<convexHullArray.length; i++){
     context.lineTo(convexHullArray[i].x, convexHullArray[i].y);
     context.stroke();
   }
+
+  convexHullArray.pop();
+
+  return convexHullArray;
+}
+
+function computeCA(pointArray){
+  //we need to partition the points such that we can perform graham scan on each, and then
+  //perform jarvis march on the convex hull points from the graham scan.
+
+  //algorithm to find the size of the convex hull
+  //there arent enough tools online (the ones that exist i dont understand)
+  //so we assume m, the size of the convex hull, is 3.
+  var subHullArray = [];
+  var subHull;
+  subHull = computeGS(pointArray.splice(0, Math.ceil(pointArray.length/3)));
+  for(var i=0; i<subHull.length; i++){
+    subHullArray.push(subHull[i]);
+  }
+  subHull = computeGS(pointArray.splice(0, Math.ceil(pointArray.length/3)));
+  for(var i=0; i<subHull.length; i++){
+    subHullArray.push(subHull[i]);
+  }
+  subHull = computeGS(pointArray);
+  for(var i=0; i<subHull.length; i++){
+    subHullArray.push(subHull[i]);
+  }
+  computeJM(subHullArray);
+
+  return;
 }
