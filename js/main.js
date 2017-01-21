@@ -4,15 +4,20 @@ var stackX = []; //for holding previous x value points.
 var stackY = []; //for holding previous y value points.
 var currX = 0;
 var currY = 0;
+var colors = '0123456789ABCEDF';
 
 /*
 List of TODOS:
 css please.
-variation of colors when it comes to the points
 proper clear button
+a timer to compare the speeds of the algorithms.
+make background black, with light colored dots.e
+add link to site in the readme.md
+do not allow for more dots to be drawn after first convex hull
+one degenerate edge case where the poinst are on the line. fix for jarvis march.
+
 time permitted:
 draw the lines during the algorithm. mad work tho
-
 */
 
 function init(){
@@ -24,15 +29,22 @@ function init(){
     stackX.push(currX);
     stackY.push(currY);
 
-    var radius = 1;
     context.beginPath();
-    context.arc(currX, currY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = 'black';
+    context.arc(currX, currY, 4, 0, 2 * Math.PI, false);
+    context.fillStyle = '#' + generateRandomColorString();
     context.fill();
-    context.lineWidth = 5;
-    context.strokeStyle = '#000000';
-    context.stroke();
+    //context.lineWidth = 5;
+    //context.strokeStyle = randomColor;
+    //context.stroke();
   });
+}
+
+function generateRandomColorString(){
+  var toReturn = "";
+  for(var i=0; i<6; i++){
+    toReturn += colors[Math.floor(Math.random()*16)];
+  }
+  return toReturn;
 }
 
 function clear(){
@@ -52,14 +64,35 @@ function Point(x, y){
   this.y = y;
 }
 
-function computeJM(){
-  //we have the stackx and stacky arrays to help find the convex hull.
+function computeJMSetUp(){
   var pointArray = [];
   //now add the points into the array, and then sort.
   for(var i=0; i<stackX.length; i++){
     pointArray.push(new Point(stackX[i], stackY[i]));
   }
-  //now sort in descending order.
+  computeJM(pointArray);
+}
+
+function computeGSSetUp(){
+  var pointArray = [];
+  //now add the points into the array, and then sort.
+  for(var i=0; i<stackX.length; i++){
+    pointArray.push(new Point(stackX[i], stackY[i]));
+  }
+  computeGS(pointArray);
+}
+
+function computeCASetUp(){
+  var pointArray = [];
+  //now add the points into the array, and then sort.
+  for(var i=0; i<stackX.length; i++){
+    pointArray.push(new Point(stackX[i], stackY[i]));
+  }
+  computeCA(pointArray);
+}
+
+function computeJM(pointArray){
+  //we have the stackx and stacky arrays to help find the convex hull.
   /*pointArray.sort(function(a,b){
     if(a.x<b.x)
       return b.x-a.x;
@@ -133,4 +166,78 @@ function computeJM(){
   }
 
   return;
+}
+
+function GrahamObject(point, angle){
+  this.x = point.x;
+  this.y = point.y;
+  this.angle = angle;
+}
+
+function isCCW(a, b, c){
+  var x = ((b.x-a.x)*(c.y-a.y) - (b.y-a.y)*(c.x-a.x));
+  if(x<=0)
+    return false;
+  return true;
+}
+
+function computeGS(pointArray){
+  //get bottomost point.
+  var bottomPoint = pointArray[0];
+  bottomPointIndex = 0;
+  for(var i=0; i<pointArray.length; i++){
+    if(pointArray[i].y>bottomPoint.y){
+      bottomPoint = pointArray[i];
+      bottomPointIndex = i;
+    }
+  }
+
+  var grahamScanArray = [];
+  var interiorAngleFinder = new Point(canvas.width, bottomPoint.y);
+  grahamScanArray.push(new GrahamObject(bottomPoint, 0));
+  for(var i=0; i<pointArray.length; i++){
+    if(i===bottomPointIndex)
+      continue;
+    var toPush = new GrahamObject(pointArray[i], 0);
+    //update the angle using math.
+    var firstSide = measureDistance(interiorAngleFinder, bottomPoint);
+    var secondSide = measureDistance(bottomPoint, pointArray[i]);
+    var thirdSide = measureDistance(interiorAngleFinder, pointArray[i]);
+    toPush.angle = Math.acos(((Math.pow(thirdSide,2)) - Math.pow(secondSide,2) - Math.pow(firstSide,2))/(-2*secondSide*firstSide));
+    grahamScanArray.push(toPush);
+  }
+  grahamScanArray.sort(function(a,b){
+    if(a.angle<=b.angle)
+      return -1;
+    return 1;
+  });
+
+  //to make a cycle of points, for the algorithm later to work properly.
+  grahamScanArray.push(grahamScanArray[0]);
+
+  //now we do math to determine what goes in the convexhull or not.
+  //if it isnt, splice it from the array.
+  //we can try something cool with matrices.
+  //the first two values are definite;y in the convex hull.
+  var convexHullArray = [];
+  convexHullArray.push(grahamScanArray[0]);
+  convexHullArray.push(grahamScanArray[1]);
+  for(var i=2; i<grahamScanArray.length; i++){
+    var currentPoint = convexHullArray.pop();
+    while(isCCW(convexHullArray[convexHullArray.length-1], currentPoint, grahamScanArray[i])){
+      currentPoint = convexHullArray.pop();
+    }
+    convexHullArray.push(currentPoint);
+    convexHullArray.push(grahamScanArray[i]);
+  }
+
+  //now draw lines.
+  context.beginPath();
+  context.moveTo(convexHullArray[0].x, convexHullArray[0].y);
+  context.strokeStyle = '#000000';
+  context.lineWidth = 1;
+  for(var i=1; i<convexHullArray.length; i++){
+    context.lineTo(convexHullArray[i].x, convexHullArray[i].y);
+    context.stroke();
+  }
 }
