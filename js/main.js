@@ -9,13 +9,12 @@ var colors = '0123456789ABCEDF';
 /*
 List of TODOS:
 css please.
-proper clear button
-a timer to compare the speeds of the algorithms.
-make background black, with light colored dots.
 add link to site in the readme.md
-do not allow for more dots to be drawn after first convex hull
+do not allow for more dots to be drawn after first convex hull unless clear button was pressed
 one degenerate edge case where the poinst are on the line. fix for jarvis march.
-edge case for jarvis march, if there are two points. done.
+proper chans algorithm.
+waves of colors.
+night mode?
 
 time permitted:
 draw the lines during the algorithm. mad work tho
@@ -134,11 +133,15 @@ function computeJM(pointArray){
   var exteriorAngle, firstSide, secondSide, thirdSide;
   var convexHullArray = [];
   convexHullArray.push(startPoint);
+  context.beginPath();
+  context.strokeStyle = '#DDDDDD';
+  context.lineWidth = 1;
 
   while((convexHullArray.length===1 || convexHullArray[0]!==convexHullArray[convexHullArray.length-1])){
     var maxIntAngle = 0;
     var currentIntAngle;
     var temp = currentPointIndex;
+
     for(var i=0; i<pointArray.length; i++){
       if(i===currentPointIndex || i===previousPointIndex)
         continue;
@@ -153,6 +156,7 @@ function computeJM(pointArray){
           currentPointIndex = i;
           maxIntAngle = currentIntAngle;
         }
+        window.setInterval(drawLine(currentPoint, pointArray[i]), 1000);
       }
     }
     previousPointIndex = temp;
@@ -255,6 +259,12 @@ function computeGS(pointArray){
   convexHullArray.pop();
 
   return convexHullArray;
+}
+
+function drawLine(a,b){
+  context.moveTo(a.x, a.y);
+  context.lineTo(b.x, b.y);
+  context.stroke();
 }
 
 function computeCA(pointArray){
