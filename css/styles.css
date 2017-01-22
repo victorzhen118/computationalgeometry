@@ -9,9 +9,10 @@
 .w3-padding-left{padding-left:16px!important}.w3-padding-right{padding-right:16px!important}
 .application-container{padding:0.01em 16px}
 .button-group{width:23%; display:block; margin: 0 auto}
-.canvas-application{width:43%; margin: 0 auto}
+.canvas-application{text-align:center; width:43%; margin: 0 auto}
 .button-group-clear{width:5%; display:block; margin: 0 auto}
 .algoButton{
+  text-align:center;
 margin: 5px 0px;
 font-family:"Segoe UI",Arial,sans-serif;
 background-color:#CCCCCC;
@@ -31,4 +32,4 @@ border-radius: 4px;
 transition-duration: 0.4s;
 float:left
 }
-.canvasS{padding: 5px 5px;}
+.canvasS{padding: 5px 5px}
