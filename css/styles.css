@@ -8,7 +8,7 @@
 .w3-wide{letter-spacing:4px; font-family:"Segoe UI",Arial,sans-serif}
 .w3-padding-left{padding-left:16px!important}.w3-padding-right{padding-right:16px!important}
 .application-container{padding:0.01em 16px}
-.button-group{align-content: center; width:23%; display:block; margin: 0 auto}
+.button-group{display:flex; align-content: center; justify-content: center; width:23%; margin: 0 auto}
 .canvas-application{text-align:center; width:43%; margin: 0 auto}
 .button-group-clear{text-align:center; width:5%; display:block; margin: 0 auto}
 .algoButton{
