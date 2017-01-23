@@ -14,7 +14,8 @@ one degenerate edge case where the poinst are on the line. fix for jarvis march.
 proper chans algorithm.
 change background colors to something nicer
 stop the buttons from being too bright.
-figure out why the jquery buttons arent working
+add an icon for the page.
+add a tab to the psuedocode under the analysis of algorithms
 
 time permitted:
 draw the lines during the algorithm. mad work tho
