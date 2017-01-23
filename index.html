@@ -58,7 +58,7 @@
       The people on Quora can explain the specific applciations better than I can <a href="https://www.quora.com/What-are-the-real-life-applications-of-convex-hulls" target="_blank">here</a>.
     </p>
     <p class="bottomTexts" id="secondText">
-      What the <a href="https://en.wikipedia.org/wiki/Gift_wrapping_algorithm" target="_blank">Jarvis March</a>. or the "Gift Wrapping Algorithm", does is greedy, but it works. <joke>It was probably made by Wayne Jarvis, the prosecutor from Arrested Development.</joke>
+      What the <a href="https://en.wikipedia.org/wiki/Gift_wrapping_algorithm" target="_blank">Jarvis March</a>, or the "Gift Wrapping Algorithm", does is greedy but it works, much like Prim's or Kruskal's. <joke>It was probably made by Wayne Jarvis, the prosecutor from Arrested Development.</joke>
       Jokes aside, it starts at the leftmost point, scanning n total points, which means this step takes &Theta;(n) time.
       It then scans all the points, checking to see which value has the smallest exterior angle, or greatest interior angle. A variable is kept to see which of the points has the greatest interior angle. The psuedocode looks something like: <br></br>
       <code>var greatestIntAngle = 0<br></br>for(all points on the screen){<br></br> &#09;if angle of ABC>greatestIntAngle, then greatestIntAngle = angle of ABC;<br></br>}</code>
@@ -73,7 +73,7 @@
       The Graham Scan then does something cool. It places the first two points in the convex hull stack, and performs a nifty algorithm. For every other point in the point array, it pops from the convex hull stack, sees if there is a clockwise or counterclockwise turn from three points: the top of the stack (using peek()), the point that was just popped, and the current point being looked it.
       If it is clockwise, push the popped point back onto the stack along with the new point and continue the algorithm. Else, it removes the popped point, pops the stack again, and repeats the algorithm.
       <br></br>
-      How it determines its rotational direction is really cool and it involves matrices. Basically, it computes the cross product of the two vectors created by three points connected by two lines, which is the same value as the <u>signed</u> area of the triangle. It is known in Calculus 3 that the value of the cross product is the determinant of the following matrix:
+      How it determines its rotational direction is really cool and it involves matrices. Basically, it computes the cross product of the two vectors created by three points connected by two lines, which is the same value as the <u>signed</u> area of the triangle times 2. It is known in Calculus 3 that the value of the cross product is the determinant of the following matrix:
       <br></br>
       <div align=center class="matrix-container">
         <table class="matrix">
@@ -96,7 +96,7 @@
       </div>
     </p>
     <p class="bottomTexts" id="tempText">
-      With this matrix, we can get a value of b<sub>x</sub>c<sub>y</sub> - b<sub>y</sub>c<sub>x</sub> - a<sub>x</sub>c<sub>y</sub> + a<sub>y</sub>c<sub>x</sub> + a<sub>x</sub>b<sub>y</sub> - a<sub>y</sub>b<sub>x</sub>.
+      With this matrix, we can get a value of b<sub>x</sub>c<sub>y</sub> - b<sub>y</sub>c<sub>x</sub> - a<sub>x</sub>c<sub>y</sub> + a<sub>y</sub>c<sub>x</sub> + a<sub>x</sub>b<sub>y</sub> - a<sub>y</sub>b<sub>x</sub>. If this number is negative, that means the signed area of the triangle is positive, which means that the turn was clockwise, and the opposite of that statement holds true as well.
       A picture of this can be viewed <a href="CCW matrix.png" target="_blank">here</a>.
       <br></br>
       The algorithm sorts in O(nlogn), then the rest of the algorithm is done in O(n), or linear time, so the total time complexity of this algorithm is O(nlogn).
