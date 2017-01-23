@@ -8,6 +8,8 @@
 </head>
 <body>
 
+
+<link rel="icon" type="image/png" href="/icon.png">
 <!-- fix the header "visual ch algos" -->
 
 <!-- Add a background color and large text to the whole page -->
@@ -56,12 +58,12 @@
       The people on Quora can explain the specific applciations better than I can <a href="https://www.quora.com/What-are-the-real-life-applications-of-convex-hulls" target="_blank">here</a>.
     </p>
     <p class="bottomTexts" id="secondText">
-      What the <a href="https://en.wikipedia.org/wiki/Gift_wrapping_algorithm" target="_blank">Jarvis March</a>. or the "Gift Wrapping Algorithm", does is greedy, but it works.
-      It starts at the leftmost point, scanning n total points, which means this step takes &Theta;(n) time.
+      What the <a href="https://en.wikipedia.org/wiki/Gift_wrapping_algorithm" target="_blank">Jarvis March</a>. or the "Gift Wrapping Algorithm", does is greedy, but it works. <joke>It was probably made by Wayne Jarvis, the prosecutor from Arrested Development.</joke>
+      Jokes aside, it starts at the leftmost point, scanning n total points, which means this step takes &Theta;(n) time.
       It then scans all the points, checking to see which value has the smallest exterior angle, or greatest interior angle. A variable is kept to see which of the points has the greatest interior angle. The psuedocode looks something like: <br></br>
       <code>var greatestIntAngle = 0<br></br>for(all points on the screen){<br></br> &#09;if angle of ABC>greatestIntAngle, then greatestIntAngle = angle of ABC;<br></br>}</code>
       <br></br>Observe <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Jarvis_march_convex_hull_algorithm_diagram.svg/280px-Jarvis_march_convex_hull_algorithm_diagram.svg.png" target="_blank">this diagram</a> to see what I mean.
-      The algorithm then gets the next point in the convex hull, and then performs the operation again until the leftmost point is reached again.
+      The algorithm then gets the next point in the convex hull, and then performs the operation again and again until the leftmost point is reached once more.
       <br><br>
       The Jarvis March scans O(n) points for h points, so the algorithm's time complexity is O(nh). Compared to the other algorithms, it is slower by a large margin, much like how insertion sort is slower than quicksort. Say you have one billion points and five thousand points in the convex hull with each operation taking 5 nanoseconds, you would get the convex hull in about 25 seconds. That's honestly terrible I wouldn't wish that on my worst enemy.
 <br></br>
