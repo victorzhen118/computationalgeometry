@@ -199,7 +199,7 @@ function GrahamObject(point, angle){
 }
 
 function isCCW(a, b, c){
-  var x = ((b.x-a.x)*(c.y-a.y) - (b.y-a.y)*(c.x-a.x));
+  var x = b.x*c.y - b.y*c.x - a.x*c.y + c.x*a.y + a.x*b.y - b.x*a.y;
   if(x<=0)
     return false;
   return true;

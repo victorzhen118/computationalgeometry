@@ -1,0 +1,21 @@
+$(document).ready(function(){
+  //$('.bottomTexts').hide();
+  $('.matrix-container').hide();
+  $('.table-container-references').hide();
+  $("#appButton").click(function(){
+    $('.bottomTexts').hide();
+    $('#firstText').slideDown(); //# is for ids, . is for css classes. why is this not doing anything
+  });
+  $("#algButton").click(function(){
+    $('.bottomTexts').hide();
+    $('#secondText').slideDown();
+  });
+  $("#inspButton").click(function(){
+    $('.bottomTexts').hide();
+    $('#thirdText').slideDown();
+  });
+  $("#refButton").click(function(){
+    $('.bottomTexts').hide();
+    $('#fourthText').slideDown();
+  });
+});
