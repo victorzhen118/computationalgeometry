@@ -48,6 +48,7 @@ float:left
 border: 25px solid green;
 font-family: "Verdana"}
 .bottomTexts{
+  position: relative;
 }
 .matrix {
     position: relative;
@@ -76,7 +77,4 @@ body {
 .matrix td {
     padding: 5px;
     text-align: center;
-}
-.bottomTexts{
-  display:none;
 }

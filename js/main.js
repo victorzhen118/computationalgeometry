@@ -8,14 +8,13 @@ var colors = '0123456789ABCEDF';
 
 /*
 List of TODOS:
-css please.
-add link to site in the readme.md
+add link to site in the readme.md - only when done
 do not allow for more dots to be drawn after first convex hull unless clear button was pressed
 one degenerate edge case where the poinst are on the line. fix for jarvis march.
 proper chans algorithm.
-waves of colors.
-night mode?
+change background colors to something nicer
 stop the buttons from being too bright.
+figure out why the jquery buttons arent working
 
 time permitted:
 draw the lines during the algorithm. mad work tho
