@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  $('.headingsInSecond').hide();
   $('.bottomTexts').hide();
   $('.matrix-container').hide();
   $('.table-container-references').hide();
@@ -6,27 +7,27 @@ $(document).ready(function(){
     $('.bottomTexts').hide();
     $('.matrix-container').hide();
     $('.table-container-references').hide();
-    $('#firstText').slideDown(); //# is for ids, . is for css classes. why is this not doing anything
+    $('#firstText').slideToggle();
   });
   $("#algButton").click(function(){
     $('.bottomTexts').hide();
     $('.matrix-container').hide();
     $('.table-container-references').hide();
-    $('#secondText').slideDown();
-    $('.matrix-container').slideDown();
-    $('#tempText').slideDown();
+    $('#secondText').slideToggle();
+    $('.matrix-container').slideToggle();
+    $('#tempText').slideToggle();
   });
   $("#inspButton").click(function(){
     $('.bottomTexts').hide();
     $('.matrix-container').hide();
     $('.table-container-references').hide();
-    $('#thirdText').slideDown();
+    $('#thirdText').slideToggle();
   });
   $("#refButton").click(function(){
     $('.bottomTexts').hide();
     $('.matrix-container').hide();
     $('.table-container-references').hide();
-    $('#fourthText').slideDown();
-    $('.table-container-references').slideDown();
+    $('#fourthText').slideToggle();
+    $('.table-container-references').slideToggle();
   });
 });
