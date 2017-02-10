@@ -57,17 +57,21 @@
       The applications of a convex hull are not just in computational geometry, but also extend to topics such as robotics, physics, and more.
       The people on Quora can explain the specific applciations better than I can <a href="https://www.quora.com/What-are-the-real-life-applications-of-convex-hulls" target="_blank">here</a>.
     </p>
-    <p class="bottomTexts" id="secondText">
-      <!--<h2 class="headingsInSecond" style="font-family: Verdana">Jarvis March</h2>-->
+    <h2 id="TitleText1">Jarvis March</h2>
+    <p class="bottomTexts" id="JarvisMarchText">
+      <!--<h2 class="headingsInSecond" style="font-family: Verdana">Jarvis March</h2> cannot throw a h2 tag in p tag.-->
       What the <a href="https://en.wikipedia.org/wiki/Gift_wrapping_algorithm" target="_blank">Jarvis March</a>, or the "Gift Wrapping Algorithm", does is greedy but it works, much like Prim's or Kruskal's. <joke>It was probably made by Wayne Jarvis, the prosecutor from Arrested Development.</joke>
-      Jokes aside, it starts at the leftmost point, scanning n total points, which means this step takes &Theta;(n) time.
-      It then scans all the points, checking to see which value has the smallest exterior angle, or greatest interior angle. A variable is kept to see which of the points has the greatest interior angle. The psuedocode looks something like: <br></br>
+      Jokes aside, it starts at the leftmost point, looking at n total points, which means this step takes &Theta;(n) time.
+      It scans all the points looking to see which value has the smallest exterior angle, or greatest interior angle. A variable is kept to see which of the points has the greatest interior angle. The psuedocode looks something like: <br></br>
       <code>var greatestIntAngle = 0<br></br>for(all points on the screen){<br></br> &#09;if angle of ABC>greatestIntAngle, then greatestIntAngle = angle of ABC;<br></br>}</code>
       <br></br>Observe <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Jarvis_march_convex_hull_algorithm_diagram.svg/280px-Jarvis_march_convex_hull_algorithm_diagram.svg.png" target="_blank">this diagram</a> to see what I mean.
       The algorithm then gets the next point in the convex hull, and then performs the operation again and again until the leftmost point is reached once more.
       <br><br>
       The Jarvis March scans O(n) points for h points, so the algorithm's time complexity is O(nh). Compared to the other algorithms, it is slower by a large margin, much like how insertion sort is slower than quicksort. Say you have one billion points and five thousand points in the convex hull with each operation taking 5 nanoseconds, you would get the convex hull in about 25 seconds. This algorithm performs in essentially quadratic time so it's similar to Prim's Algorithm in that it's effective but slow.
       <br></br>
+    </p>
+    <h2 id="TitleText2">Graham Scan</h2>
+    <p class="bottomTexts" id="GrahamScanText">
       <!--<h2 class="headingsInSecond" style="font-family:Verdana">Graham Scan</h2>-->
       Then comes along the Graham Scan. It first gets the bottommost point. For every point, it gets the interior angle and sorts in ascending order in O(nlogn) time with any good sorting algorithm like randomized quicksort, merge sort, or heap sort. A diagram can be seen <a href="http://www.personal.kent.edu/~rmuhamma/Compgeometry/MyCG/ConvexHull/GrahamScan/Gifs-GrahamScan/grahamSorting.gif" target="_blank">here</a>.
       <br></br>
@@ -104,6 +108,9 @@
       <br></br>
       <br></br>
       <!--<h2 class="headingsInSecond" style="font-family:Verdana">Chan's Algorithm = Jarvis March + Graham Scan</h2>-->
+    </p>
+    <h2 id="TitleText3">Chan's Algorithm = Jarvis March + Graham Scan</h2>
+    <p class="bottomTexts" id="ChansAlgoText">
       Last but not least is Chan's Algorithm. It is a combination of both the Jarvis March and the Graham Scan to help give it a time complexity of O(nlogh), which is significantly better than the other two.
       First, the algorithm finds the number of vertices that are in the convex hull and calls it 'm'. Then, the algorithm splits the points into m sub-hulls and performs the Graham Scan on each of them. Then, with the vertices that make up the convex hull of the sub-hulls, it performs the Jarvis March on those vertices to get a total convex hull.
       It really is elegant, the whole entire <a href = "http://www.cs.ucsb.edu/~suri/cs235/ChanCH.pdf" target="_blank">thing</a>.
@@ -113,7 +120,7 @@
 
     </p>
     <p class="bottomTexts" id="thirdText">
-      Inspirations, hmm. Because I'm a fkin nerd, I like computer science and mathematics; sue me. In particular, I have an interest in algorithms (wink wink recruiters who read this). I stumbled upon computational geometry when looking for classes but it was not available during this semester (Spring 2017) so I decided to take it later.
+      Inspirations, hmm. Because I'm pretty nerdy, I like computer science and mathematics; sue me. In particular, I have an interest in algorithms (wink wink recruiters who read this). I stumbled upon computational geometry when looking for classes but it was not available during this semester (Spring 2017) so I decided to take it later.
       On reddit, I found a great video about convex hulls and inspired me to make this whole entire website dedicated to them. It was a lot of fun to write in a language I was initally slightly uncomfortable in, but thanks to W3Schools, Codecademy, and friends, I finally finished the site.
     </p>
     <p class="bottomTexts" id="fourthText">
