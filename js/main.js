@@ -241,9 +241,8 @@ function computeGS(pointArray){
   grahamScanArray.push(grahamScanArray[0]);
 
   //now we do math to determine what goes in the convexhull or not.
-  //if it isnt, splice it from the array.
   //we can try something cool with matrices.
-  //the first two values are definite;y in the convex hull.
+  //the first two values are definitely in the convex hull.
   var convexHullArray = [];
   convexHullArray.push(grahamScanArray[0]);
   convexHullArray.push(grahamScanArray[1]);
