@@ -1,146 +1,17 @@
 <!DOCTYPE html>
 <html>
-<title>Visual Convex Hull Algorithms</title>
+<title>Visual Computational Geometry Algorithms</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/styles.css">
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
+    
+    <input type="button" onclick="openConvexHullPage()" value="Go to very old project made in 2017" />
+    <input type="button" onclick="openTriangulationPage()" value="Go to triangulation project" />
 
-
-<link rel="icon" type="image/png" href="/icon.png">
-<!-- fix the header "visual ch algos" -->
-
-<!-- Add a background color and large text to the whole page -->
-<div class="w3-sand w3-grayscale w3-large">
-
-<!-- About Container -->
-<div class="w3-container" id="about">
-  <div class="w3-content" style="max-width:700px">
-    <h5 class="w3-center w3-padding-48 "><span class="w3-tag w3-wide w3-padding-left w3-padding-right">Visual Convex Hull Algorithms</span></h5>
-    <p>This is an application to help show a convex hull based on a series of points placed by a user. By definition, a convex hull is a polygon with the smallest total side length that contains all the points. See below for more information about convex hulls and the algorithms used to make them.</p>
-    <p>To use this application, click on the canvas below to place points, and click "Jarvis March", "Graham Scan", or "Chan's Algorithm" to observe the algorithms.</p>
-  </div>
-</div>
-
-<div class="application-container">
-  <div class="button-group">
-    <input type="button" class="algoButton" value="Jarvis March" id="computeJMButton" onClick="computeJMSetUp()">
-    <input type="button" class="algoButton" value="Graham Scan" id="computeGSButton" onClick="computeGSSetUp()">
-    <input type="button" class="algoButton" value="Chan's Algorithm" id="computeCAButton" onClick="computeCASetUp()">
-  </div>
-  <div class="button-group">
-    <input type="button" class="algoButton" value="Clear" id="clearButton" onClick="clearScreen()">
-  </div>
-  <br></br>
-  <div class="canvas-application">
-    <canvas id="canvas" class="canvasS" width="500" height="500" style="border:1px solid #000000;"></canvas>
-  </div>
-</div>
-<!-- more about CHs, explanation of algorithms, inspirations, and references. -->
-<div class="information-container">
-  <h2 style="margin:40px 10px; text-align:center">More information about this application</h2>
-  <div class="button-group">
-    <input type="button" class="descriptionButton" value="Applications of Convex Hulls" id="appButton" >
-    <input type="button" class="descriptionButton" value="Analysis of Algorithms" id="algButton">
-    <input type="button" class="descriptionButton" value="Inspirations" id="inspButton">
-    <input type="button" class="descriptionButton" value="References" id="refButton">
-  </div>
-  <hr></hr>
-  <div class="text-window">
-    <p class="bottomTexts" id="firstText">
-      Imagine you have some nails stuck to a flat wooden board.
-      You then stretch a rubber band around all of the nails and let go; the resulting polygon that forms is the convex hull.
-      More information on them can be seen on the <a href="https://en.wikipedia.org/wiki/Convex_hull" target="_blank">wikipedia page</a>.
-    <br>
-      The applications of a convex hull are not just in computational geometry, but also extend to topics such as robotics, physics, and more.
-      The people on Quora can explain the specific applciations better than I can <a href="https://www.quora.com/What-are-the-real-life-applications-of-convex-hulls" target="_blank">here</a>.
-    </p>
-    <h2 id="TitleText1">Jarvis March</h2>
-    <p class="bottomTexts" id="JarvisMarchText">
-      <!--<h2 class="headingsInSecond" style="font-family: Verdana">Jarvis March</h2> cannot throw a h2 tag in p tag.-->
-      What the <a href="https://en.wikipedia.org/wiki/Gift_wrapping_algorithm" target="_blank">Jarvis March</a>, or the "Gift Wrapping Algorithm", does is greedy but it works, much like Prim's or Kruskal's. <joke>It was probably made by Wayne Jarvis, the prosecutor from Arrested Development.</joke>
-      Jokes aside, it starts at the leftmost point, looking at n total points, which means this step takes &Theta;(n) time.
-      It scans all the points looking to see which value has the smallest exterior angle, or greatest interior angle. A variable is kept to see which of the points has the greatest interior angle. The psuedocode looks something like: <br></br>
-      <code>var greatestIntAngle = 0<br></br>for(all points on the screen){<br></br> &#09;if angle of ABC>greatestIntAngle, then greatestIntAngle = angle of ABC;<br></br>}</code>
-      <br></br>Observe <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Jarvis_march_convex_hull_algorithm_diagram.svg/280px-Jarvis_march_convex_hull_algorithm_diagram.svg.png" target="_blank">this diagram</a> to see what I mean.
-      The algorithm then gets the next point in the convex hull, and then performs the operation again and again until the leftmost point is reached once more.
-      <br><br>
-      The Jarvis March scans O(n) points for h points, so the algorithm's time complexity is O(nh). Compared to the other algorithms, it is slower by a large margin, much like how insertion sort is slower than quicksort. Say you have one billion points and five thousand points in the convex hull with each operation taking 5 nanoseconds, you would get the convex hull in about 25 seconds. This algorithm performs in essentially quadratic time so it's similar to Prim's Algorithm in that it's effective but slow.
-      <br></br>
-    </p>
-    <h2 id="TitleText2">Graham Scan</h2>
-    <p class="bottomTexts" id="GrahamScanText">
-      <!--<h2 class="headingsInSecond" style="font-family:Verdana">Graham Scan</h2>-->
-      Then comes along the Graham Scan. It first gets the bottommost point. For every point, it gets the interior angle and sorts in ascending order in O(nlogn) time with any good sorting algorithm like randomized quicksort, merge sort, or heap sort. A diagram can be seen <a href="http://www.personal.kent.edu/~rmuhamma/Compgeometry/MyCG/ConvexHull/GrahamScan/Gifs-GrahamScan/grahamSorting.gif" target="_blank">here</a>.
-      <br></br>
-      The Graham Scan then does something cool. It places the first two points in the convex hull stack, and performs a nifty algorithm. For every other point in the point array, it pops from the convex hull stack, sees if there is a clockwise or counterclockwise turn from three points: the top of the stack (using peek()), the point that was just popped, and the current point being looked it.
-      If it is clockwise, push the popped point back onto the stack along with the new point and continue the algorithm. Else, it removes the popped point, pops the stack again, and repeats the algorithm.
-      <br></br>
-      How it determines its rotational direction is really cool and it involves matrices. Basically, it computes the cross product of the two vectors created by three points connected by two lines, which is the same value as the <u>signed</u> area of the triangle times 2. It is known in Calculus 3 that the value of the cross product is the determinant of the following matrix:
-      <br></br>
-      <div align=center class="matrix-container">
-        <table class="matrix">
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>a<sub>x</sub></td>
-                <td>b<sub>x</sub></td>
-                <td>c<sub>x</sub></td>
-            </tr>
-            <tr>
-                <td>a<sub>y</sub></td>
-                <td>b<sub>y</sub></td>
-                <td>c<sub>y</sub></td>
-            </tr>
-        </table>
-      </div>
-    </p>
-    <p class="bottomTexts" id="tempText">
-      With this matrix, we can get a value of b<sub>x</sub>c<sub>y</sub> - b<sub>y</sub>c<sub>x</sub> - a<sub>x</sub>c<sub>y</sub> + a<sub>y</sub>c<sub>x</sub> + a<sub>x</sub>b<sub>y</sub> - a<sub>y</sub>b<sub>x</sub>. If this number is negative, that means the signed area of the triangle is positive, which means that the turn was clockwise, and the opposite of that statement holds true as well.
-      A picture of this can be viewed <a href="CCW matrix.png" target="_blank">here</a>.
-      <br></br>
-      The algorithm sorts in O(nlogn), then the rest of the algorithm is done in O(n), or linear time, so the total time complexity of this algorithm is O(nlogn).
-      <br></br>
-      <br></br>
-      <!--<h2 class="headingsInSecond" style="font-family:Verdana">Chan's Algorithm = Jarvis March + Graham Scan</h2>-->
-    </p>
-    <h2 id="TitleText3">Chan's Algorithm = Jarvis March + Graham Scan</h2>
-    <p class="bottomTexts" id="ChansAlgoText">
-      Last but not least is Chan's Algorithm. It is a combination of both the Jarvis March and the Graham Scan to help give it a time complexity of O(nlogh), which is significantly better than the other two.
-      First, the algorithm finds the number of vertices that are in the convex hull and calls it 'm'. Then, the algorithm splits the points into m sub-hulls and performs the Graham Scan on each of them. Then, with the vertices that make up the convex hull of the sub-hulls, it performs the Jarvis March on those vertices to get a total convex hull.
-      It really is elegant, the whole entire <a href = "http://www.cs.ucsb.edu/~suri/cs235/ChanCH.pdf" target="_blank">thing</a>.
-      You can see how I use both the Jarvis March and Graham Scan in Chan's. The convex hull from the Jarvis March is outlined in black; the convex hull from the Graham Scan is outlined in blue.
-      <br></br>
-      p.s. if you see this p.s. that means i set m as 3 because i dont understand how chan got the value for m and the things online don't make sense to me. i'm either working on this or my homeworks.
-
-    </p>
-    <p class="bottomTexts" id="thirdText">
-      Inspirations, hmm. Because I'm pretty nerdy, I like computer science and mathematics; sue me. In particular, I have an interest in algorithms (wink wink recruiters who read this). I stumbled upon computational geometry when looking for classes but it was not available during this semester (Spring 2017) so I decided to take it later.
-      On reddit, I found a great video about convex hulls and inspired me to make this whole entire website dedicated to them. It was a lot of fun to write in a language I was initally slightly uncomfortable in, but thanks to W3Schools, Codecademy, and friends, I finally finished the site.
-    </p>
-    <p class="bottomTexts" id="fourthText">
-      Many thanks to the following:
-      <div class="table-container-references">
-      <ul>
-        <li>All associated pictures</li>
-        <li><a href="https://www.codecademy.com/learn" target="_blank">Codecademy</a></li>
-        <li><a href="http://stackoverflow.com/" target="_blank">StackOverflow</a> - what software developer doesnt use this come on</li>
-        <li>First <a href="https://www.youtube.com/watch?v=0HZaRu5IupM" target="_blank">video</a> from a Princeton professor talking about computational geometry in his algorithms class</li>
-        <li>Second <a href="https://www.youtube.com/watch?v=ZnTiWcIznEQ" target="_blank">video</a> that I stumbled upon on reddit.</li>
-        <li>Last but definitely not least, <a href="http://www.w3schools.com/" target="_blank">w3schools</a>. Oh my god this website saved me so many times with its simple guides on HTML/CSS when I needed help. Also their CSS template was amazing; some of my css classes still have the w3 title in it.</li>
-      </ul>
-    </p>
-  </div>
-</div>
-</div>
-
-<script src='js/main.js'> </script>
-<script src='js/buttons.js'> </script>
+    <script src='js/pivot.js'> </script>
 
 </body>
 </html>

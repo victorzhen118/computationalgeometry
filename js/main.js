@@ -32,8 +32,8 @@ function init(){
   context.stroke();
 
   canvas.addEventListener("mousedown", function(e){
-    currX = e.pageX - canvas.offsetLeft-6;
-    currY = e.pageY - canvas.offsetTop-6;
+    currX = e.pageX - canvas.offsetLeft;
+    currY = e.pageY - canvas.offsetTop;
     //currX = e.clientX;
     //currY = e.clientY;
     stackX.push(currX);
@@ -300,4 +300,12 @@ function computeCA(pointArray){
   computeJM(subHullArray);
 
   return;
+}
+
+function openConvexHullPage() {
+    window.location = "convexhull.html"
+}
+
+function openTriangulationPage() {
+    window.location = "triangulation.html"
 }
